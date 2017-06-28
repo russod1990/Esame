@@ -38,9 +38,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_ASTE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = Asta.FIND_ALL, query = "SELECT a FROM Asta a"),
-    @NamedQuery(name=Asta.FIND_BY_USER, query="SELECT a FROM Asta a WHERE a.utente.idUtente=:idUtente GROUP BY a.terminata"),
-    @NamedQuery(name=Asta.FIND_BY_OTHER_USER, query="SELECT a FROM Asta a WHERE NOT a.utente.idUtente=:idUtente AND WHERE a.terminata==FALSE")
+    @NamedQuery(name = Asta.FIND_ALL, query = "SELECT a FROM Asta a")
+    ,
+    @NamedQuery(name = Asta.FIND_BY_USER, query = "SELECT a FROM Asta a WHERE a.utente.idUtente=:idUtente GROUP BY a.terminata")
+    ,
+   @NamedQuery(name = Asta.FIND_BY_OTHER_USER, query = "SELECT a FROM Asta a WHERE a.utente.idUtente!=:idUtente AND a.terminata=FALSE")
 })
 public class Asta implements Serializable {
 
@@ -58,33 +60,33 @@ public class Asta implements Serializable {
     @Column(name = "DATA_TERMINE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataFine = new Date();
-    
+
     @Basic(optional = false)
     @Column(name = "BASE_ASTA")
     private BigDecimal baseAsta;
 
     @Column(name = "DESCRIZIONE")
     private String descrizione;
-    
+
     @JoinColumn(name = "ID_PROPRIETARIO", referencedColumnName = "ID_UTENTE")
     @ManyToOne(optional = false)
     private Utente utente;
-    
+
     @JoinColumn(name = "ID_PRODOTTO", referencedColumnName = "ID_PRODOTTO")
     @ManyToOne(optional = false)
     private Prodotto prodotto;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Asta")
-    private List<Offerta> elencoOfferte=new ArrayList<Offerta>();
 
-    @Column(name="TERMINATA")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "Asta")
+    private List<Offerta> elencoOfferte = new ArrayList<Offerta>();
+
+    @Column(name = "TERMINATA")
     @NotNull
-    private boolean terminata=false;
+    private boolean terminata = false;
 
     public static final String FIND_ALL = "Asta.findAll";
-    public static final String FIND_BY_USER="Asta.findByUser";
-    public static final String FIND_BY_OTHER_USER="Asta.findByOtherUser";
-    
+    public static final String FIND_BY_USER = "Asta.findByUser";
+    public static final String FIND_BY_OTHER_USER = "Asta.findByOtherUser";
+
     public Asta() {
     }
 
@@ -151,7 +153,7 @@ public class Asta implements Serializable {
     public void setProdotto(Prodotto prodotto) {
         this.prodotto = prodotto;
     }
-    
+
     @XmlTransient
     public List<Offerta> getElencoOfferte() {
         return elencoOfferte;
@@ -231,5 +233,4 @@ public class Asta implements Serializable {
         return "Asta{" + "idAsta=" + idAsta + ", dataInizio=" + dataInizio + ", dataFine=" + dataFine + ", baseAsta=" + baseAsta + ", descrizione=" + descrizione + ", utente=" + utente + ", prodotto=" + prodotto + ", elencoOfferte=" + elencoOfferte + ", terminata=" + terminata + '}';
     }
 
-    
 }

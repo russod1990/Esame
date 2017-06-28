@@ -37,4 +37,8 @@ public class ProdottoManager {
     public List<Prodotto> findAll() {
         return em.createNamedQuery(Prodotto.FIND_ALL).getResultList();
     }
+
+    public List<Prodotto> findByUser(long id) {
+        return em.createNamedQuery(Prodotto.FIND_BY_USER, Prodotto.class).setParameter("idUtente", id).getResultList();
+    }
 }

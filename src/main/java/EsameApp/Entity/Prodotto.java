@@ -26,7 +26,8 @@ import javax.persistence.Table;
 @Table(name = "T_PRODOTTI")
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Prodotto.FIND_ALL, query = "SELECT p FROM Prodotto p")
+    @NamedQuery(name = Prodotto.FIND_ALL, query = "SELECT p FROM Prodotto p"),
+    @NamedQuery(name=Prodotto.FIND_BY_USER, query="SELECT p FROM Prodotto p WHERE p.utente.idUtente=:idUtente")
 })
 public class Prodotto implements Serializable {
 
@@ -52,6 +53,7 @@ public class Prodotto implements Serializable {
     private String imgUrl;
     
     public static final String FIND_ALL = "Prodotto.findAll";
+    public static final String FIND_BY_USER="Prodotto.findByUser";
 
     public Prodotto() {
     }
