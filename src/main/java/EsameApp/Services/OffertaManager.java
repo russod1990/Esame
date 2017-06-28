@@ -6,6 +6,7 @@
 package EsameApp.Services;
 
 import EsameApp.Entity.Offerta;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,5 +37,14 @@ public class OffertaManager {
 
     public List<Offerta> findAll() {
         return em.createNamedQuery(Offerta.FIND_ALL).getResultList();
+    }
+    
+    public List<Offerta> findByUser(long id){
+        return em.createNamedQuery(Offerta.FIND_BY_USER).getResultList();
+    }
+
+    public Offerta newOffer(Offerta o) {
+        BigDecimal price=o.getImporto();
+        return null;
     }
 }

@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -31,7 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "T_OFFERTE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = Offerta.FIND_ALL, query = "SELECT o FROM Offerta o")
+    @NamedQuery(name = Offerta.FIND_ALL, query = "SELECT o FROM Offerta o"),
+    @NamedQuery(name=Offerta.FIND_BY_USER, query="SELECT o FROM Offerta o WHERE o.utente.idUtente=:idUtente ORDER BY o.dataOfferta DESC"),
+    @NamedQuery(name=Offerta.FIND_BY_AUCTION, query="SELECT o FROM Offerta o WHERE o.asta.idAsta=:idAsta")//???
 })
 public class Offerta implements Serializable{
     @Id
@@ -40,9 +43,11 @@ public class Offerta implements Serializable{
     private long idOfferta;
     
     @JoinColumn(name="ID_ASTA", referencedColumnName="ID_ASTA")
+    @ManyToOne(optional = false)
     private Asta asta;
     
     @JoinColumn(name="ID_OFFERENTE", referencedColumnName = "ID_UTENTE")
+    @ManyToOne(optional = false)
     private Utente utente;
     
     @Column(name="IMPORTO")
@@ -55,6 +60,8 @@ public class Offerta implements Serializable{
     private Date dataOfferta=new Date();
     
     public static final String FIND_ALL = "Offerta.findAll";
+    public static final String FIND_BY_USER="Offerta.findByUser";
+    public static final String FIND_BY_AUCTION="Offerta.findByAuction";
 
     public Offerta() {
     }

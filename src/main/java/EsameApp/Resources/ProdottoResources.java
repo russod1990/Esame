@@ -54,7 +54,7 @@ public class ProdottoResources {
     @Path("nuovo")
     @TokenNeeded
     public void crea(Prodotto p) {
-        System.out.println("******* nuova product ********");
+        System.out.println("******* nuovo product ********");
         p.setUtente(tokenManager.getCurrentUser());
         prodottoManager.save(p);
     }
