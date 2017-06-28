@@ -37,4 +37,12 @@ public class AstaManager {
     public List<Asta> findAll() {
         return em.createNamedQuery(Asta.FIND_ALL).getResultList();
     }
+    
+    public List<Asta> findByUser(long id){
+        return em.createNamedQuery(Asta.FIND_BY_USER).setParameter("idUtente", id).getResultList();
+    }
+    
+    public List<Asta> findByOtherUser(long id){
+        return em.createNamedQuery(Asta.FIND_BY_OTHER_USER).setParameter("idUtente", id).getResultList();
+    }
 }

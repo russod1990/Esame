@@ -38,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "T_ASTE")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = Asta.FIND_ALL, query = "SELECT a FROM Asta a")
+    @NamedQuery(name = Asta.FIND_ALL, query = "SELECT a FROM Asta a"),
+    @NamedQuery(name=Asta.FIND_BY_USER, query="SELECT a FROM Asta a WHERE a.utente.idUtente=:idUtente"),
+    @NamedQuery(name=Asta.FIND_BY_OTHER_USER, query="SELECT a FROM Asta a WHERE NOT a.utente.idUtente=:idUtente")
 })
 public class Asta implements Serializable {
 
@@ -80,6 +82,8 @@ public class Asta implements Serializable {
     private boolean terminata=false;
 
     public static final String FIND_ALL = "Asta.findAll";
+    public static final String FIND_BY_USER="Asta.findByUser";
+    public static final String FIND_BY_OTHER_USER="Asta.findByOtherUser";
     
     public Asta() {
     }
